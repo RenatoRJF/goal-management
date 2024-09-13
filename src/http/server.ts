@@ -8,11 +8,30 @@ import {
 
 import { createGoal } from '../services/create-goal'
 import getWeekPendingGoals from '../services/get-week-peding-goals'
+import createGoalCompletion from '../services/create-goal-completion'
 
 const app = fastfy().withTypeProvider<ZodTypeProvider>()
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
+
+app.post(
+  '/goals-completions',
+  {
+    schema: {
+      body: z.object({
+        goalId: z.string(),
+      }),
+    },
+  },
+  async ({ body }) => {
+    const { goalCompletion } = await createGoalCompletion({
+      goalId: body.goalId,
+    })
+
+    return { goalCompletion }
+  }
+)
 
 app.get('/pending-goals', async () => {
   const { pedingGoals } = await getWeekPendingGoals()
