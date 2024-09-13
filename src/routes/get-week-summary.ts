@@ -3,8 +3,8 @@ import { getWeekSummary } from '../services/get-week-summary'
 
 export const getWeekSummaryRoute: FastifyPluginAsyncZod = async app => {
   app.get('/week-summary', async () => {
-    const { summary } = await getWeekSummary()
+    const { summary, result } = await getWeekSummary()
 
-    return { summary }
+    return { summary, result }
   })
 }
