@@ -4,6 +4,7 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod'
+import fastifyCors from '@fastify/cors'
 
 import { createGoalRoute } from '../routes/create-goal'
 import { createCompletionRoute } from '../routes/create-completion'
@@ -14,6 +15,10 @@ const app = fastfy().withTypeProvider<ZodTypeProvider>()
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
+
+app.register(fastifyCors, {
+  origin: '*',
+})
 
 app.register(createGoalRoute)
 app.register(createCompletionRoute)
